@@ -22,6 +22,8 @@
 # Xcode
 
 
+HG=hg
+
 
 [ -z "$NEW_HOSTNAME" ] && echo "Need to set NEW_HOSTNAME" && exit 1;
 [ -z "$SSH_KEY_LOC" ] && echo "Need to set SSH_KEY_LOC" && exit 1;
@@ -30,17 +32,20 @@
 mkdir -p ~/.ssh 
 chmod 700 ~/.ssh
 echo "###################   Getting SSH keys from specified host."
-scp -r $SSH_KEY_LOC/id_* $SSH_KEY_LOC/known_hosts $SSH_KEY_LOC/config ./.ssh
+scp -r $SSH_KEY_LOC ~/
 
 username=`whoami`
 
 # Set default shell to zsh
-echo "###################    Changing shell"
-/usr/bin/chsh -s /bin/zsh $username
 
 
 case `uname -s` in
     'Linux')
+        PACKAGES="git wine zsh keychain gnome-do docky hg"
+        echo "###################    Installing packages"
+        su -c "yum install -y ${PACKAGES}"
+        echo "###################    Changing shell"
+        su -c "chsh -s /bin/zsh $username"
     ;;  
     'Darwin')
 
@@ -127,8 +132,8 @@ case `uname -s` in
 
 
         HG=/opt/local/bin/hg
-
-
+        echo "###################    Changing shell"
+        chsh -s /bin/zsh $username
 
     ;;  
 esac
@@ -137,6 +142,6 @@ esac
 
 mkdir -p ~/code
 cd ~/code
-$HG clone ssh://hg@bitbucket.org/zbisch/zconfigs
-$HG clone ssh://hg@bitbucket.org/zbisch/zbin
-python ~/code/zconfigs/makeSymLinks.py
+$HG clone ssh://hg@bitbucket.org/zbisch/zconfigs > /dev/null 2> /dev/null
+$HG clone ssh://hg@bitbucket.org/zbisch/zbin > /dev/null 2> /dev/null
+python ~/code/zconfigs/makeSymLinks.py > /dev/null 2> /dev/null
