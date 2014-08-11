@@ -1,8 +1,3 @@
-# Before running you must manually install MacPorts and duti
-
-# Much of this is stolen from https://github.com/mathiasbynens/dotfiles/blob/master/.osx?os-x-10.8
-
-HG=hg
 
 
 [ -z "$NEW_HOSTNAME" ] && echo "Need to set NEW_HOSTNAME" && exit 1;
@@ -117,11 +112,3 @@ case `uname -s` in
 
     ;;  
 esac
-
-
-
-mkdir -p ~/code
-cd ~/code
-$HG clone ssh://hg@bitbucket.org/zbisch/zconfigs > /dev/null 2> /dev/null
-$HG clone ssh://hg@bitbucket.org/zbisch/zbin > /dev/null 2> /dev/null
-python ~/code/zconfigs/makeSymLinks.py > /dev/null 2> /dev/null
